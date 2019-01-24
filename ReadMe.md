@@ -1,7 +1,7 @@
 ### webpack 相关概念简单讲解
 
 先来查看我们安装了哪些npm 包 及其作用
-```json
+```
 "devDependencies": {
     "@babel/core": "^7.2.2", //babel的核心代码在这个模块
     "@babel/plugin-proposal-class-properties": "^7.3.0",//es6 class写法需要，属于插件类型
