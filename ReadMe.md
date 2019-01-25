@@ -34,6 +34,14 @@
 - 执行webpack 命令 （选择mode 是development production or none）
  - 根据入口 entry构成一个依赖图，去解析打包文件。遇到各种文件import的时候，根据webpack.config.js中的module.rules中配置的各种loader去解析处理不同的文件类型。
   - 最终输出 bundle.js，在自己的html文件中引入唯一的一个bundle.js文件即可
+
+
+
+
+
+  ---
+
+  ###  electron 的主进程的webpack打包，必须设置target:"electron-main"，详情看 webpack.config.main.js
   
 
 
