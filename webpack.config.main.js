@@ -7,6 +7,9 @@ module.exports = {
     path: __dirname + '/dist'
 
   },
+  node: {
+    __dirname: true
+  },
   module: {
     rules: [ {
         test: /\.js$/,
