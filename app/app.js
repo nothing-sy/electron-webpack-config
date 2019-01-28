@@ -6,7 +6,7 @@ class App extends React.Component{
   render(){
 
 return (<div>
-我是主页
+我是6676666999
 </div>)
 
   }
@@ -16,5 +16,5 @@ return (<div>
 
 }
 
-ReactDOM.render(<App/>,document.querySelector('#app'));
 
+ReactDOM.render(<App/>,document.querySelector('#app'));

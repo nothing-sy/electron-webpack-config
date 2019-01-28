@@ -6,8 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
 </head>
-<body id="app">
-asdf
-  <script src="./dist/bundle.js"></script>
+<body >
+  <div id="app"></div>
+<!-- 如果直接在本地跑则使用热更新模块，如果是打包则使用打包好的bundle文件 -->
+  <script>
+  console.log(process.env.HOT+2);
+  const port = process.env.PORT || 8080;
+  if(!process.env.HOT)
+  {
+    document.write("<script src='./dist/bundle.js'><\/script>")
+  }
+  else{
+  var devSrc='http://localhost:' + port + '/bundle.js';
+    document.write("<script src="+devSrc+"><\/script>")
+  }
+  </script>
 </body>
 </html>

@@ -4,9 +4,9 @@
   "main": "./dist/main.pro.js",
   "description": "",
   "scripts": {
-    "start": "webpack --mode production --colors --display-reasons && npm run build-electron-main && electron .",
-    "build-electron-main": "webpack --mode production --config webpack.config.main.js --colors --display-reasons",
-    "dev": "webpack --mode development --colors --display-reasons && electron ."
+    "start-dev": "webpack --mode development --colors --display-reasons && npm run build-electron-main && electron .",
+    "build-electron-main": "webpack --mode development --config webpack.config.main.js --colors --display-reasons",
+    "dev": "cross-env HOT=1 webpack-dev-server  --mode development  --colors --config webpack.config.js"
   },
   "author": "chensiyuan",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "electron": "^4.0.2",
     "html-loader": "^0.5.5",
@@ -24,6 +25,7 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14",
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
