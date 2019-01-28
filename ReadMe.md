@@ -44,6 +44,32 @@
   ###  electron 的主进程的webpack打包，必须设置target:"electron-main"，详情看 webpack.config.main.js
   
 
+### webpack-dev-server的使用以及，如何在electron中实现代码热更新
+
+webpack-dev-server提供了一个服务，我们可以在webpack.config相关配置文件中增加devServer字段，使用inline:true以及hot:true来进行热更新
+然而这个简单的配置只是针对在浏览器中的。那如果我要在electron也实现这个代码热替换呢？
+
+首先看看以下命令
+```
+ "scripts": {
+    "start-dev": "webpack --mode development --colors --display-reasons && npm run build-electron-main && electron .",
+    "build-electron-main": "webpack --mode development --config webpack.config.main.js --colors --display-reasons",
+    "dev": "cross-env HOT=1 webpack-dev-server  --mode development  --colors --config webpack.config.js"
+  }
+```
+
+执行顺序是：npm run dev 启动 webpack-dev-server 指定 HOT参数为1，表示需要热替换。然后再执行 npm run start-dev正常打包 electron的主进程文件
+以及 渲染文件 最后执行 electron指令启动应用。
+
+但是问题来了，当我们执行webpack-dev-server启动服务的时候，这个服务已经占用了我们的进程，后面的指令就不再执行了。为此，devServer中有一个before的函数（参考webpack.cofnig.js中的代码），这个意思是，在启动服务前开一个子进程来专门执行npm run start-dev指令，这样就不用担心webpack-dev-server阻塞了进程
+而before函数中的spawn函数，是node中的模块 child_process的一个函数，它允许执行npm指令。
+
+
+配置好这些后，执行npm run dev则能正常启动。此时index.html中的script中的文件路径需要注意，webpack-dev-server是存在内存中的，我们需要访问webpack-dev-server这个服务提供的路径即 http://localhost:8080/bundle.js  （相关端口号及输出文件名等可以另外配置，此处为这个地址），而非热替换模块
+则直接使用dist 目录打包生成的文件 。
+
+启动成功后我们确实可以看到 我们的app.js的内容。然而，当我们改动app.js的内容的时候，热更新模块确实被触发了。但是提示file:///28e31c456f50300b0a88.hot-update.json net::ERR_FILE_NOT_FOUND
+这个hot-update.json文件没找到。我们需要再webpack.config.js中明确指定output字段的publicPath字段，意思是，在html加载资源的时候使用这个路径去寻找。才能找得到这些动态生成的文件，这里publicPath也是 webpack-dev-server的默认路径。 配置完之后，热替换就正常运行了
 
 
 

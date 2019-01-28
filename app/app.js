@@ -6,7 +6,7 @@ class App extends React.Component{
   render(){
 
 return (<div>
-我是6676666999
+我是62
 </div>)
 
   }
